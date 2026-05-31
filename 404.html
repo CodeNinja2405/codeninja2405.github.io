@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1A1A2E" />
+  <title>Fables — Open in app</title>
+  <meta name="description" content="Track what you watch, read, and play with Fables." />
+
+  <!-- ============================================================ -->
+  <!-- This file is INTENTIONALLY a duplicate of                    -->
+  <!--   /fables/share/index.html                                   -->
+  <!-- ============================================================ -->
+  <!-- GitHub Pages serves /404.html for any path that doesn't      -->
+  <!-- exist as a static file. Deep-link URLs like                  -->
+  <!--   /fables/share/title/movies/27205?name=Inception            -->
+  <!-- aren't static files (we'd need to generate one per title) -- -->
+  <!-- so GH Pages routes them here. The JS below reads             -->
+  <!-- window.location and renders the same UI as the landing page. -->
+  <!-- The URL bar stays at the original deep-link path; the user   -->
+  <!-- doesn't notice the 404.                                      -->
+  <!--                                                              -->
+  <!-- KEEP IN SYNC with /fables/share/index.html — edit both       -->
+  <!-- files together. (We could symlink, but GitHub Pages doesn't  -->
+  <!-- preserve symlinks across some build paths, so duplicating is -->
+  <!-- the safe move.)                                              -->
+  <!-- ============================================================ -->
+
+  <meta property="og:title" content="Fables — track what you watch, read, and play" />
+  <meta property="og:description" content="Open this title in Fables." />
+  <meta property="og:image" content="https://codeninja2405.github.io/fables/share/og-default.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root {
+      --bg: #1A1A2E;
+      --surface: #232342;
+      --text: #F1F1F5;
+      --muted: #9A9AB5;
+      --accent: #6C63FF;
+      --accent-hover: #8077FF;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px 20px;
+      line-height: 1.45;
+    }
+    main {
+      width: 100%; max-width: 420px;
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+    .brand {
+      font-size: 14px; letter-spacing: 2px;
+      color: var(--accent); text-transform: uppercase;
+      font-weight: 700; margin-bottom: 6px;
+    }
+    .title {
+      font-size: 22px; font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .subtitle {
+      color: var(--muted); font-size: 14px;
+      margin: 0 0 24px;
+    }
+    .poster {
+      width: 144px; height: 216px; border-radius: 12px;
+      margin: 0 auto 20px; object-fit: cover;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      display: none;
+    }
+    .poster.shown { display: block; }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 15px;
+      margin-bottom: 10px;
+      transition: background 120ms ease;
+    }
+    .cta:hover { background: var(--accent-hover); }
+    .cta.secondary {
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--muted);
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">Fables</div>
+    <h1 class="title" id="title">Open this title in Fables</h1>
+    <p class="subtitle" id="subtitle">
+      Detecting your device…
+    </p>
+    <img class="poster" id="poster" alt="" />
+    <div id="actions"></div>
+    <p class="footer">
+      Fables is a personal media tracker for what you watch, read, and play.
+      <br /><a href="https://codeninja2405.github.io/Fables-privacy/">Privacy</a>
+    </p>
+  </main>
+
+  <script>
+    const path = window.location.pathname.replace(/^\/+|\/+$/g, '').split('/');
+    const segments = path[0] === 'fables' ? path.slice(1) : path;
+    const params = new URLSearchParams(window.location.search);
+
+    let titleName = params.get('name') || '';
+    let posterUrl = params.get('poster') || '';
+    let entityType = '';
+    let category = '';
+    let id = '';
+
+    if (segments[0] === 'share' && segments[1] === 'title' && segments.length >= 4) {
+      entityType = 'title';
+      category = segments[2];
+      id = segments[3];
+    }
+
+    const ua = navigator.userAgent || '';
+    const isAndroid = /Android/i.test(ua);
+    const isIOS = /iPad|iPhone|iPod/i.test(ua) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    const titleEl = document.getElementById('title');
+    const subtitleEl = document.getElementById('subtitle');
+    const posterEl = document.getElementById('poster');
+    const actionsEl = document.getElementById('actions');
+
+    if (titleName) {
+      titleEl.textContent = `Open "${titleName}" in Fables`;
+    }
+    if (posterUrl) {
+      posterEl.src = posterUrl;
+      posterEl.alt = titleName || 'Title poster';
+      posterEl.classList.add('shown');
+    }
+
+    const ANDROID_TESTER_URL =
+      'https://play.google.com/apps/testing/com.fables.app';
+
+    if (isAndroid) {
+      subtitleEl.textContent =
+        'If you have Fables installed, it should open automatically. ' +
+        'If not, join the Android closed test below.';
+      actionsEl.innerHTML =
+        `<a class="cta" href="${ANDROID_TESTER_URL}">Get Fables (Android)</a>` +
+        `<a class="cta secondary" href="${ANDROID_TESTER_URL}">Open Play Store</a>`;
+    } else if (isIOS) {
+      subtitleEl.textContent =
+        'Fables on iOS is launching soon. Try it on Android in the meantime.';
+      actionsEl.innerHTML =
+        `<a class="cta secondary" href="${ANDROID_TESTER_URL}">Get Fables on Android</a>`;
+    } else {
+      subtitleEl.textContent =
+        'Open this link on your phone to install Fables.';
+      actionsEl.innerHTML =
+        `<a class="cta secondary" href="${ANDROID_TESTER_URL}">Android: tester opt-in</a>`;
+    }
+  </script>
+</body>
+</html>

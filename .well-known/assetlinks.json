@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.fables.app",
+      "sha256_cert_fingerprints": [
+        "CD:5B:89:5B:9A:CE:F6:37:77:96:E7:08:AB:C4:BD:A0:67:7F:4B:96:B7:34:47:19:3B:EB:7B:19:2E:32:52:D1"
+      ]
+    }
+  }
+]
