@@ -182,7 +182,17 @@
       titleEl.textContent = `Open "${titleName}" in Fables`;
     }
     if (posterUrl) {
-      posterEl.src = posterUrl;
+      // Posters arrive either as a full URL or as a bare TMDB path like
+      // "/abc.jpg" (the app passes the raw poster_path). A bare path would
+      // resolve against tryfables.com and 404, so prefix it with the TMDB
+      // image CDN. Full URLs (http...) are left untouched.
+      const resolvedPoster = /^\/[^/]/.test(posterUrl)
+        ? 'https://image.tmdb.org/t/p/w500' + posterUrl
+        : posterUrl;
+      // If the image still fails to load, hide the slot rather than
+      // showing a broken-image icon.
+      posterEl.onerror = () => posterEl.classList.remove('shown');
+      posterEl.src = resolvedPoster;
       posterEl.alt = titleName || 'Title poster';
       posterEl.classList.add('shown');
     }
