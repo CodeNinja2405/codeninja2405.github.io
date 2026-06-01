@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1A1A2E" />
+  <meta name="theme-color" content="#0A0A0A" />
   <title>Fables — Open in app</title>
   <meta name="description" content="Track what you watch, read, and play with Fables." />
 
@@ -28,55 +28,79 @@
 
   <meta property="og:title" content="Fables — track what you watch, read, and play" />
   <meta property="og:description" content="Open this title in Fables." />
-  <meta property="og:image" content="https://tryfables.com/fables/share/og-default.png" />
+  <meta property="og:image" content="https://tryfables.com/img/hero.png" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+
   <style>
     :root {
-      --bg: #1A1A2E;
-      --surface: #232342;
-      --text: #F1F1F5;
-      --muted: #9A9AB5;
-      --accent: #6C63FF;
-      --accent-hover: #8077FF;
+      --bg: #0A0A0A;
+      --surface: #1a1917;
+      --text: #e5e2e1;
+      --muted: #d0c5af;
+      --gold: #f2ca50;
+      --gold-deep: #d4af37;
+      --on-gold: #3c2f00;
+      --outline: rgba(212, 175, 55, 0.2);
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; min-height: 100%; }
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        "Helvetica Neue", Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       display: flex; align-items: center; justify-content: center;
       padding: 32px 20px;
-      line-height: 1.45;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* Subtle gold glow behind the card. */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%; left: 50%;
+      width: 600px; height: 600px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(10, 10, 10, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
     }
     main {
+      position: relative; z-index: 1;
       width: 100%; max-width: 420px;
       background: var(--surface);
-      border-radius: 20px;
-      padding: 32px 24px;
+      border: 1px solid var(--outline);
+      border-radius: 16px;
+      padding: 36px 28px;
       text-align: center;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.04);
     }
     .brand {
-      font-size: 14px; letter-spacing: 2px;
-      color: var(--accent); text-transform: uppercase;
-      font-weight: 700; margin-bottom: 6px;
+      font-size: 13px; letter-spacing: 4px;
+      color: var(--gold); text-transform: uppercase;
+      font-weight: 700; margin-bottom: 14px;
     }
     .title {
-      font-size: 22px; font-weight: 700;
-      margin: 0 0 8px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-weight: 700;
+      font-size: 26px; line-height: 1.2;
+      color: var(--text);
+      margin: 0 0 10px;
     }
     .subtitle {
       color: var(--muted); font-size: 14px;
       margin: 0 0 24px;
     }
     .poster {
-      width: 144px; height: 216px; border-radius: 12px;
-      margin: 0 auto 20px; object-fit: cover;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      width: 150px; height: 225px; border-radius: 10px;
+      margin: 0 auto 22px; object-fit: cover;
+      border: 1px solid var(--outline);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
       display: none;
     }
     .poster.shown { display: block; }
@@ -84,27 +108,32 @@
       display: inline-flex; align-items: center; justify-content: center;
       width: 100%;
       padding: 14px 18px;
-      background: var(--accent);
-      color: white;
-      font-weight: 600;
+      background: var(--gold);
+      color: var(--on-gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
       text-decoration: none;
-      border-radius: 12px;
-      font-size: 15px;
+      border-radius: 6px;
+      font-size: 13px;
       margin-bottom: 10px;
-      transition: background 120ms ease;
+      transition: box-shadow 150ms ease, transform 150ms ease;
     }
-    .cta:hover { background: var(--accent-hover); }
+    .cta:hover { box-shadow: 0 0 25px rgba(212, 175, 55, 0.3); transform: translateY(-1px); }
     .cta.secondary {
       background: transparent;
-      border: 1px solid var(--muted);
+      border: 1px solid var(--outline);
       color: var(--muted);
     }
+    .cta.secondary:hover { border-color: var(--gold); color: var(--gold); box-shadow: none; }
     .footer {
-      margin-top: 20px;
+      margin-top: 22px;
       font-size: 12px;
-      color: var(--muted);
+      color: rgba(208, 197, 175, 0.7);
+      line-height: 1.6;
     }
-    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a { color: var(--gold); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -118,7 +147,7 @@
     <div id="actions"></div>
     <p class="footer">
       Fables is a personal media tracker for what you watch, read, and play.
-      <br /><a href="https://codeninja2405.github.io/Fables-privacy/">Privacy</a>
+      <br /><a href="https://tryfables.com/privacy/">Privacy</a>
     </p>
   </main>
 
