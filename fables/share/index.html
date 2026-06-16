@@ -197,26 +197,26 @@
       posterEl.classList.add('shown');
     }
 
-    const ANDROID_TESTER_URL =
-      'https://play.google.com/apps/testing/com.fables.app';
+    const ANDROID_STORE_URL =
+      'https://play.google.com/store/apps/details?id=com.fables.app';
 
     if (isAndroid) {
       subtitleEl.textContent =
         'If you have Fables installed, it should open automatically. ' +
-        'If not, join the Android closed test below.';
+        'If not, get it on Google Play below.';
       actionsEl.innerHTML =
-        `<a class="cta" href="${ANDROID_TESTER_URL}">Get Fables (Android)</a>` +
-        `<a class="cta secondary" href="${ANDROID_TESTER_URL}">Open Play Store</a>`;
+        `<a class="cta" href="${ANDROID_STORE_URL}">Get Fables (Android)</a>` +
+        `<a class="cta secondary" href="${ANDROID_STORE_URL}">Open Play Store</a>`;
     } else if (isIOS) {
       subtitleEl.textContent =
         'Fables on iOS is launching soon. Try it on Android in the meantime.';
       actionsEl.innerHTML =
-        `<a class="cta secondary" href="${ANDROID_TESTER_URL}">Get Fables on Android</a>`;
+        `<a class="cta secondary" href="${ANDROID_STORE_URL}">Get Fables on Android</a>`;
     } else {
       subtitleEl.textContent =
         'Open this link on your phone to install Fables.';
       actionsEl.innerHTML =
-        `<a class="cta secondary" href="${ANDROID_TESTER_URL}">Android: tester opt-in</a>`;
+        `<a class="cta secondary" href="${ANDROID_STORE_URL}">Get Fables on Android</a>`;
     }
   </script>
 </body>
