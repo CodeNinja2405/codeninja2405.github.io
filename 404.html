@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0A0A0A" />
-  <title>Fables — Open in app</title>
+  <title>Fables - Open in app</title>
   <meta name="description" content="Track what you watch, read, and play with Fables." />
 
   <!-- ============================================================ -->
@@ -20,13 +20,13 @@
   <!-- The URL bar stays at the original deep-link path; the user   -->
   <!-- doesn't notice the 404.                                      -->
   <!--                                                              -->
-  <!-- KEEP IN SYNC with /fables/share/index.html — edit both       -->
+  <!-- KEEP IN SYNC with /fables/share/index.html - edit both       -->
   <!-- files together. (We could symlink, but GitHub Pages doesn't  -->
   <!-- preserve symlinks across some build paths, so duplicating is -->
   <!-- the safe move.)                                              -->
   <!-- ============================================================ -->
 
-  <meta property="og:title" content="Fables — track what you watch, read, and play" />
+  <meta property="og:title" content="Fables - track what you watch, read, and play" />
   <meta property="og:description" content="Open this title in Fables." />
   <meta property="og:image" content="https://tryfables.com/img/hero.png" />
   <meta property="og:type" content="website" />
@@ -209,8 +209,9 @@
         `<a class="cta secondary" href="${ANDROID_STORE_URL}">Open Play Store</a>`;
     } else if (isIOS) {
       subtitleEl.textContent =
-        'Fables on iOS is launching soon. Try it on Android in the meantime.';
+        'Fables for iOS is in beta on TestFlight. Join below, or grab it on Android.';
       actionsEl.innerHTML =
+        `<a class="cta" href="https://testflight.apple.com/join/Yx5xH4zA">Join the iOS beta</a>` +
         `<a class="cta secondary" href="${ANDROID_STORE_URL}">Get Fables on Android</a>`;
     } else {
       subtitleEl.textContent =
